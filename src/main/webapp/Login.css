@@ -1,0 +1,88 @@
+#box {
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    width: 50%;
+    margin-left: 25%;
+}
+
+#loginbox {
+	text-align: center;
+	background: #f1f1f1;
+	color: #000;
+	position: relative;
+	padding: 10px;
+}
+
+#signupbox {
+	text-align: center;
+	display: none;
+	background: #f1f1f1;
+	color: #000;
+	position: relative;
+	padding: 10px;
+}
+
+.valid {
+	color: green;
+}
+
+.invalid {
+	color: red;
+}
+
+a {
+	float: right;
+	background-color: #38f;
+	color: white;
+}
+
+input {
+	padding: 4px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+	margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+button {
+	background-color: #38f;
+	color: white;
+	padding: 5px 2px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 25%;
+}
+
+
+#signupmsg2 {
+	display: none;
+	background: #f1f1f1;
+	color: #000;
+	position: relative;
+	padding: 20px;
+	margin-top: 10px;
+}
+
+.valid {
+	color: green;
+}
+
+.invalid {
+	color: red;
+}
+
+
+.topnav {
+	background-color: #38f;
+	border-radius: 10px;
+	height: 30px;
+	margin-top: 1%;
+	color: white;
+	padding: 18px;
+	font-weight: bold;
+}

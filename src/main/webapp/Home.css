@@ -1,0 +1,298 @@
+#storylistdetail {
+	font-size: 20px;
+	margin-left: 36px;
+}
+
+#storylist {
+	border-radius: 10px;
+	margin: 25px;
+}
+
+#pagenumber {
+	margin: 10px;
+	background: #f0f0f0;
+	padding: 1px;
+}
+
+.wrapper * {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 32px;
+	margin-top: -32px;
+	margin-left: -4px;
+}
+
+.wrapper {
+	margin-left: 6px;
+	margin-top: 14px;
+	border-radius: 10px;
+	width: 70%;
+	height: 32px;
+	margin-top: 10px;
+}
+
+.topic {
+	color: #38f;
+	width: 60%;
+	margin-left: 2%;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.topic span:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.essence {
+	font-size: 14px;
+	float: right;
+	margin-top: -38px;
+	margin-right: 140px;
+}
+
+.time {
+	font-size: 12px;
+	float: right;
+	margin-right: 124px;
+	margin-top: -16px;
+}
+
+.likecountdiv {
+	font-size: 14px;
+	float: right;
+	margin-top: -20px;
+}
+
+.viewcountdiv {
+	font-size: 14px;
+	float: right;
+	margin-top: -20px;
+}
+
+#title {
+	font-size: 30px;
+	color: #38f;
+	margin-right: 50px;
+}
+
+#storydiv {
+	width: 80%;
+	margin: 10%;
+	margin-top: 50px;
+}
+
+#headingdiv {
+	background: #f0f0f0;
+	border-radius: 10px;
+}
+
+#likebtn {
+	background: white;
+	border: none;
+	font-size: 20px;
+	color: #31364f;
+}
+
+#likebtn:active {
+	
+}
+
+#publisherspan {
+	color: #38f;
+}
+
+#updatetimediv {
+	margin-right: 50px;
+}
+
+#content {
+	margin-bottom: 60px;
+	margin-top: 30px;
+}
+
+.commentblock {
+	margin: 2%;
+	background: #eee;
+	border-radius: 10px;
+	padding: 6px;
+}
+
+.cmtuser {
+	font-size: 15px;
+	color: #7af;
+}
+
+.cmttime {
+	text-align: right;
+	margin-top: -18px;
+}
+
+.comment {
+	margin-top: 3px;
+	font-size: 14px;
+}
+
+#conmmentput {
+	width: 95%;
+	margin-left: 18px;
+	margin-top: 6px;
+}
+
+#commentsub {
+	margin-left: 18px;
+	margin-top: 18px;
+	font-size: 12px;
+	padding: 2px;
+}
+
+.close {
+	float: right;
+	margin: -30px;
+	border-radius: 50%;
+}
+
+#editordiv {
+	margin-top: 6%;
+}
+
+.editbtn {
+	color: blue;
+	font-size: 12px;
+	text-decoration: underline;
+	float: right;
+	margin-right: 11px;
+}
+
+.deletebtn {
+	color: blue;
+	font-size: 12px;
+	text-decoration: underline;
+	float: right;
+}
+
+#subs-gen {
+	display: none;
+}
+
+.storyblock {
+	border-radius: 10px;
+	background-color: #F0F0F0;
+	width: 70%;
+	padding: 10px;
+	margin: 12px;
+}
+
+.storyblock:hover {
+	background-color: #cdcdcd;
+}
+
+.topnav {
+	background-color: #38f;
+	border-radius: 10px;
+	height: 30px;
+	margin-top: 1%;
+	color: white;
+	padding: 18px;
+	font-weight: bold;
+	margin-bottom: 30px;
+}
+
+#homebtn {
+	background: none;
+	border: none;
+	color: white;
+	font-size: 22px;
+}
+
+#userdrop {
+	float: right;
+}
+
+#userdropcontent {
+	background: #8d8b8b;
+}
+
+#compose {
+	background-color: #eee;
+	float: right;
+	color: black;
+	text-align: center;
+	padding: 6px;
+	font-size: 14px;
+	margin-right: 2%;
+	margin-top: -4px;
+}
+
+#compose:hover, #searchit:hover {
+	background-color: #ddd;
+}
+
+#search {
+	float: right;
+	padding: 6px;
+	margin-top: -4px;
+	font-size: 17px;
+	border: none;
+}
+
+#searchit {
+	background-color: #eee;
+	color: black;
+	float: right;
+	padding: 8px 10px;
+	margin-top: -4px;
+	margin-right: 16px;
+	font-size: 16px;
+	border: none;
+	cursor: pointer;
+}
+
+#useroption {
+	border: none;
+	background: transparent;
+	color: white;
+	font-size: 14px;
+	float: right;
+}
+
+#useroption table {
+	color: black;
+	font-size: 12px;
+	font-weight: normal;
+	border: 2px black;
+	background-color: white;
+	display: none;
+	padding: 4px;
+}
+
+#useroption table td:hover {
+	background-color: #ddd;
+}
+
+#editordiv #title {
+	border: none;
+	width: 100%;
+}
+
+#editordiv #title.focus {
+	border: none;
+}
+
+#editordiv #fullContainer {
+	width: 80%;
+	margin-left: 10%
+}
+
+#inserttitle {
+	width: 996px;
+}
+
+#editordiv #editor {
+	height: 300px;
+}
+
+.ql-tooltip, .ql-hidden {
+	display: none;
+}
