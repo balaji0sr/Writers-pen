@@ -7,6 +7,8 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.object.Comment;
+import com.object.Genre;
+import com.object.Genre_user;
 import com.object.Likes;
 import com.object.Story;
 import com.object.Users;
@@ -15,7 +17,7 @@ public class Hibernate {
 
 	public static SessionFactory getSessionFactory() {
 
-		Configuration config = new Configuration().configure().addAnnotatedClass(Story.class);
+		Configuration config = new Configuration().configure().addAnnotatedClass(Story.class).addAnnotatedClass(Likes.class);
 
 		ServiceRegistry reg = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
 
@@ -46,6 +48,25 @@ public class Hibernate {
 	public static SessionFactory getSessionFactoryOfLike() {
 
 		Configuration config = new Configuration().configure().addAnnotatedClass(Likes.class);
+
+		ServiceRegistry reg = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
+
+		SessionFactory sf = config.buildSessionFactory(reg);
+		return sf;
+	}
+	
+	public static SessionFactory getSessionFactoryOfGenre() {
+
+		Configuration config = new Configuration().configure().addAnnotatedClass(Genre.class);
+
+		ServiceRegistry reg = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
+
+		SessionFactory sf = config.buildSessionFactory(reg);
+		return sf;
+	}
+	public static SessionFactory getSessionFactoryOfGenre_user() {
+
+		Configuration config = new Configuration().configure().addAnnotatedClass(Genre_user.class);
 
 		ServiceRegistry reg = new ServiceRegistryBuilder().applySettings(config.getProperties()).buildServiceRegistry();
 

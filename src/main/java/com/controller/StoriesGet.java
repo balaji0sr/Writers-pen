@@ -39,8 +39,13 @@ public class StoriesGet {
 
 		int page = Integer.parseInt(req.getParameter("page"));
 		int type = Integer.parseInt(req.getParameter("type"));
+		
+		String searchcontent = req.getParameter("searchcontent");
+		String likedstories = req.getParameter("likedstories");
+		String commentedstories = req.getParameter("searchcontent");
+		
 
-		ArrayList<Story> slist = StoryCRUD.read(page ,type, userid);
+		ArrayList<Story> slist = StoryCRUD.read(page ,type, userid , searchcontent , likedstories , commentedstories);
 
 		if (slist.size() < (StoryCRUD.storyFetchLimit + 1) )
 			moredata = false;
@@ -50,7 +55,7 @@ public class StoriesGet {
 		for (Story s : slist) {
 			Calendar cal = Calendar.getInstance();
 			cal.setTimeInMillis(Long.parseLong(s.getUpdatetime()));
-			s.setUpdatetime( new SimpleDateFormat("dd-MMM-yyyy  hh:mm aa" ).format(cal.getTime()));
+			s.setUpdatetime( new SimpleDateFormat("dd-MMM-yy  hh:mm aa" ).format(cal.getTime()));
 		}
 
 		Inform info = new Inform();

@@ -1,6 +1,7 @@
 //$Id$
 package com.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +11,8 @@ import javax.net.ssl.SSLContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -28,19 +29,27 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.google.gson.Gson;
 
 @Controller
-public class ImageControl {
+public class AttachmentControl {
 
-	@RequestMapping(value = "/imageservice", method = RequestMethod.POST)
+	@RequestMapping(value = "/attachmentservice", method = RequestMethod.POST)
 	@ResponseBody
-	public void userphoto(HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException, ServletException, Exception {
+	public void userphoto(@RequestParam("file") CommonsMultipartFile files , HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException, ServletException {
 
+		System.out.println("Inside writerspen attachmentservice");
+		System.out.println(files.getOriginalFilename() + "  " + files.getName());
+		
+        HttpSession ses = req.getSession();
+        int useridint = (int) ses.getAttribute("userid");
+		long userid = Long.valueOf(useridint);
+		
 		String responseString = null;
-		System.out.println( "inside the writerspen image upload" );
 		try
 		{
 			HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
@@ -48,7 +57,7 @@ public class ImageControl {
 			SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
 			CloseableHttpClient httpclient = httpClientBuilder.setSSLSocketFactory(sslConnectionSocketFactory).build();
 			
-			URIBuilder uriBuilder = new URIBuilder("http://localhost:8080/FileServer/imageservice");
+			URIBuilder uriBuilder = new URIBuilder("http://localhost:8080/FileServer/attachmentservice/" + userid);
 			
 			HttpUriRequest requestObj = new HttpPost(uriBuilder.build());
 			
@@ -57,8 +66,7 @@ public class ImageControl {
 			MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
 	
 			@SuppressWarnings("resource")
-			InputStream stream = IOUtils.toInputStream( req.getParameter("encodedbase64") );
-			
+			InputStream stream = new ByteArrayInputStream(files.getBytes());			
 			
 			byte[] buffer = new byte[8192];
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -67,20 +75,25 @@ public class ImageControl {
 			{
 			    output.write(buffer, 0, bytesRead);
 			}
-		
-			multipartEntity.addPart("file", new ByteArrayBody(output.toByteArray(), "testingBalajiCode.jpg"));
+			System.out.println("getOriginalFilename :::" + files.getOriginalFilename());
+			System.out.println(files.getContentType());
+			System.out.println(files.getName());
+			System.out.println(files.getSize());
+			System.out.println(files.getStorageDescription());
+
+
+			multipartEntity.addPart(files.getOriginalFilename(), new ByteArrayBody(output.toByteArray(), files.getOriginalFilename()));
 			requestBase.setEntity(multipartEntity.build());
 			HttpResponse response = httpclient.execute(requestObj);
 			HttpEntity responseEntity = response.getEntity();
 			Object responseObject = EntityUtils.toString(responseEntity);
 			responseString = responseObject.toString();
-			System.out.println(responseString);
+			System.out.println("responseString " + responseString);
 		}
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
 		}
-		
 		
 		Gson g = new Gson();
 		String gsonstring = g.toJson(responseString);

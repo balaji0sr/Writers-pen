@@ -21,6 +21,10 @@ public class Story {
 	private long genreid;
 	private long likecount;
 	private long viewcount;
+	private String contenttext;
+
+	
+	
 
 	public long getStoryid() {
 		return storyid;
@@ -120,4 +124,14 @@ public class Story {
 	public void setViewcount(long viewcount) {
 		this.viewcount = viewcount;
 	}
+
+	public String getContenttext() {
+		return contenttext;
+	}
+
+	public void setContenttext(String contenttext) {
+		this.contenttext = contenttext;
+	}
+	
+	
 }

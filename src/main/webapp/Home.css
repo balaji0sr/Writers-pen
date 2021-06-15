@@ -1,3 +1,7 @@
+* {
+	font-family: arial;
+}
+
 #storylistdetail {
 	font-size: 20px;
 	margin-left: 36px;
@@ -5,37 +9,34 @@
 
 #storylist {
 	border-radius: 10px;
-	margin: 25px;
+	margin: 24px;
+}
+
+#userstoryoptiondiv {
+	display: none;
+	float: right;
 }
 
 #pagenumber {
 	margin: 10px;
-	background: #f0f0f0;
 	padding: 1px;
-}
-
-.wrapper * {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 32px;
-	margin-top: -32px;
-	margin-left: -4px;
+	color: blue;
 }
 
 .wrapper {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	margin-left: 6px;
-	margin-top: 14px;
-	border-radius: 10px;
 	width: 70%;
-	height: 32px;
-	margin-top: 10px;
+	margin-top: 8px;
 }
 
 .topic {
 	color: #38f;
 	width: 60%;
-	margin-left: 2%;
+	margin-left: 4px;
+	margin-top: 2px;
 	font-size: 16px;
 	font-weight: bold;
 }
@@ -72,27 +73,33 @@
 }
 
 #title {
-	font-size: 30px;
-	color: #38f;
-	margin-right: 50px;
+	font-size: 20px;
+	color: #312222;
+	font-weight: bold;
 }
 
 #storydiv {
-	width: 80%;
-	margin: 10%;
+	margin: 4%;
 	margin-top: 50px;
 }
 
 #headingdiv {
 	background: #f0f0f0;
 	border-radius: 10px;
+	padding: 1%;
+}
+
+#headingdiv table {
+	width: 100%;
+	font-size: 16px;
 }
 
 #likebtn {
-	background: white;
+	float: right;
+	background: transparent;
 	border: none;
 	font-size: 20px;
-	color: #31364f;
+	margin-top: -4px;
 }
 
 #likebtn:active {
@@ -103,8 +110,13 @@
 	color: #38f;
 }
 
+#additionaloptionsdiv{
+	    margin: 16px;
+}
+
 #updatetimediv {
-	margin-right: 50px;
+	    text-align: center;
+    margin-top: 10px;
 }
 
 #content {
@@ -113,24 +125,25 @@
 }
 
 .commentblock {
-	margin: 2%;
+	margin: 1%;
 	background: #eee;
 	border-radius: 10px;
-	padding: 6px;
+	padding: 1%;
 }
 
 .cmtuser {
-	font-size: 15px;
+	font-size: 14px;
 	color: #7af;
 }
 
 .cmttime {
 	text-align: right;
-	margin-top: -18px;
+	margin-top: -16px;
+	font-size: 14px;
 }
 
 .comment {
-	margin-top: 3px;
+	margin-top: 6px;
 	font-size: 14px;
 }
 
@@ -140,21 +153,24 @@
 	margin-top: 6px;
 }
 
+#commentbox {
+	border-top-color: #777;
+	border-top: thin solid;
+	padding-top: 30px;
+}
+
 #commentsub {
 	margin-left: 18px;
 	margin-top: 18px;
 	font-size: 12px;
 	padding: 2px;
+	border-radius: 6px;
 }
 
-.close {
-	float: right;
-	margin: -30px;
-	border-radius: 50%;
-}
-
-#editordiv {
-	margin-top: 6%;
+.backbtn {
+	background: transparent;
+	border: transparent;
+	font-size: 18px;
 }
 
 .editbtn {
@@ -170,6 +186,14 @@
 	font-size: 12px;
 	text-decoration: underline;
 	float: right;
+}
+
+.cmtdeletebtn {
+	color: blue;
+	font-size: 12px;
+	text-decoration: underline;
+	float: right;
+	margin-top: -8px;
 }
 
 #subs-gen {
@@ -214,7 +238,17 @@
 	background: #8d8b8b;
 }
 
-#compose {
+#composediv {
+	padding: 10px;
+	margin: 12px;
+	margin-top: 4px;
+}
+
+#publishbuttondiv {
+    text-align: center;
+}
+
+#compose , #compose:active{
 	background-color: #eee;
 	float: right;
 	color: black;
@@ -223,6 +257,8 @@
 	font-size: 14px;
 	margin-right: 2%;
 	margin-top: -4px;
+	    border: none;
+    border-radius: 4px;
 }
 
 #compose:hover, #searchit:hover {
@@ -271,6 +307,10 @@
 	background-color: #ddd;
 }
 
+#editordiv {
+	
+}
+
 #editordiv #title {
 	border: none;
 	width: 100%;
@@ -281,18 +321,36 @@
 }
 
 #editordiv #fullContainer {
-	width: 80%;
-	margin-left: 10%
+	border-radius: 10px;
+	margin: 12px;
+	background: #efefef;
+	padding: 28px;
+}
+
+#editerdetail {
+	font-size: 20px;
+	margin-left: 6px;
 }
 
 #inserttitle {
-	width: 996px;
+    width: 1118px;
+	border: none;
+	font-size: 16px;
+	font-weight: 600;
+	background-color: white !important;
+	padding: 6px;
 }
 
 #editordiv #editor {
 	height: 300px;
+	background: white;
 }
 
 .ql-tooltip, .ql-hidden {
 	display: none;
+}
+
+.ql-editor img {
+	width: 150px;
+	height: 200px;
 }

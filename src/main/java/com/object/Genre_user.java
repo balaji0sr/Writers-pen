@@ -3,14 +3,14 @@ package com.object;
 
 public class Genre_user {
 
-	private int genre_userid;
+	private long genre_userid;
 	private int genreid;
-	private int userid;
+	private long userid;
 	
-	public int getGenre_userid() {
+	public long getGenre_userid() {
 		return genre_userid;
 	}
-	public void setGenre_userid(int genre_userid) {
+	public void setGenre_userid(long genre_userid) {
 		this.genre_userid = genre_userid;
 	}
 	public int getGenreid() {
@@ -19,10 +19,10 @@ public class Genre_user {
 	public void setGenreid(int genreid) {
 		this.genreid = genreid;
 	}
-	public int getUserid() {
+	public long getUserid() {
 		return userid;
 	}
-	public void setUserid(int userid) {
+	public void setUserid(long userid) {
 		this.userid = userid;
 	}
 }

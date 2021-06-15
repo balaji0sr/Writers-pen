@@ -2,6 +2,7 @@
 package com.controller;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,10 +11,25 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.net.ssl.SSLContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,10 +51,10 @@ public class Storycontrol {
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(Long.parseLong(s.getUpdatetime()));
-		s.setUpdatetime(new SimpleDateFormat("dd-MMM-yyyy  hh:mm aa").format(cal.getTime()));
+		s.setUpdatetime(new SimpleDateFormat("dd-MMM-yy  hh:mm aa").format(cal.getTime()));
 
 		cal.setTimeInMillis(Long.parseLong(s.getModifiedtime()));
-		s.setModifiedtime(new SimpleDateFormat("dd-MMM-yyyy  hh:mm aa").format(cal.getTime()));
+		s.setModifiedtime(new SimpleDateFormat("dd-MMM-yy  hh:mm aa").format(cal.getTime()));
 
 		Gson g = new Gson();
 		String gsonstring = g.toJson(s);
@@ -62,11 +78,10 @@ public class Storycontrol {
 
 		String story = req.getParameter("encodeedcontent");
 		String decodedStory = URLDecoder.decode(story);
-		
-		System.out.println(decodedStory);
 
+		String contenttext = req.getParameter("contenttext");
 
-		StoryCRUD.create(userid, username, title, decodedStory, type, parentstoryid);
+		StoryCRUD.create(userid, username, title, decodedStory, type, parentstoryid, contenttext);
 
 		String s = "success " + userid;
 		res.setContentType("text/plain");
@@ -75,6 +90,10 @@ public class Storycontrol {
 		return;
 	}
 
+	
+	
+
+	
 	@RequestMapping(value = "/stories", method = RequestMethod.PUT)
 	public void storyupdate(HttpServletRequest req, HttpServletResponse res) throws ClassNotFoundException, SQLException, IOException, ServletException {
 

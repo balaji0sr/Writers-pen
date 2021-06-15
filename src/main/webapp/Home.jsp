@@ -55,7 +55,7 @@
 						</button></td>
 				<tr />
 				<tr>
-					<td onclick="getstories(1)">Stories</td>
+					<td onclick="yourstories(1)">Stories</td>
 				<tr />
 				<tr>
 					<td onclick="getstories(2)">Drafts</td>
@@ -78,6 +78,13 @@
 		<span id="storylistdetail">Latest Stories</span>
 		<div id="storylist">Loading awesome stories...</div>
 
+		<div id="userstoryoptiondiv">
+			<button id="likedstoriesbtn" onclick="likedstorieslist()"
+				value="false">Liked Stories</button>
+			<button id="commentedstoriesbtn" onclick="commentedstorieslist()"
+				value="false">Commented Stories</button>
+		</div>
+
 		<div id="navigate" style="text-align: center;">
 			<input type="button" value="Previous" id="previous" /> <span
 				id="pagenumber"></span> <input type="button" value="Next" id="next" />
@@ -87,60 +94,91 @@
 	<div id="subs-gen" style="float: right;"></div>
 
 	<div id="storydiv">
-		<button class="close" onclick="showstorieslistdiv()">
-			<i class="fa fa-close"></i>
+
+		<button class="backbtn" onclick="showstorieslistdiv()">
+			<i class='fa fa-arrow-left'></i>
 		</button>
 
 		<div id="headingdiv">
 			<table>
 				<tr>
 					<td><div id="title"></div></td>
-					<td><span id="likecountdiv"></span>
-						<button id="likebtn" onclick="likeputordelete()" value="false">
-							<i id="likeicon" class="fa fa-thumbs-up"></i>
-						</button></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td><div id="publisherdiv"></div></td>
-					<td><span id="viewcountdiv"></span></td>
+					<td style="float: right;"><span id="updatetimediv"></span></td>
 				</tr>
 				<tr>
-					<td><div id="updatetimediv"></div></td>
-					<td><div id="modifiedtimediv"></div></td>
+					<td><span id="viewcountdiv"></span>
+
+						<button id="likebtn" onclick="likeputordelete()" value="false">
+							<i id="likeicon" class="fa fa-thumbs-up"></i>
+						</button> <span style="float: right;" id="likecountdiv"></span></td>
+					<td style="float: right;"><div id="modifiedtimediv"></div></td>
 				</tr>
 			</table>
 		</div>
 		<div id="content"></div>
 
-		<label for="commentbox" style="color: #38f;"> Comments:</label>
 		<div id="commentbox">
+
+			<label for="commentbox" style="color: #777;"> Comments:</label>
 
 			<div id="commentdiv"></div>
 			<div id="commentinput">
 				<textarea id="conmmentput" rows="4" cols="50"
-					placeholder="comment..."></textarea>
+					placeholder="Add your comment here"></textarea>
 				<br>
-				<button id="commentsub" onclick="putcomment()">Submit
-					Comment</button>
+				<button id="commentsub" onclick="putcomment()">Save Comment</button>
 			</div>
 		</div>
 	</div>
 
 	<div id="editordiv">
-		<div id="toolbar"></div>
+		<button class="backbtn" onclick=" showstorieslistdiv()">
+			<i class="fa fa-arrow-left"></i>
+		</button>
+		<span id="editerdetail">Compose your Blog!</span>
+		<div id="composediv">
+			<div id="toolbar"></div>
 
-		<div id="fullContainer">
-			<button class="close" onclick=" showstorieslistdiv()">
-				<i class="fa fa-close"></i>
-			</button>
-			<input type="text" id="inserttitle" name="inserttitle"
-				placeholder="Title"> <br /> <br />
-			<div id="editor"></div>
-			<br /> <br />
-			<button id="upload" onclick="uploadclick(1)" value="true">Publish
-				As Story</button>
-			<button id="draft" onclick="draftclick(2)" value="true">Save
-				As Draft</button>
+			<div id="fullContainer">
+				<input type="text" id="inserttitle" name="inserttitle"
+					placeholder="Title"> <br /> <br />
+				<div id="editor"></div>
+			</div>
+
+			<div id="additionaloptionsdiv">
+
+				<input type="file" id="file" name="file" multiple>
+			</div>
+
+			<br />
+			<div id="publishbuttondiv">
+
+				<button id="upload" onclick="saveimageupload(1)" value="true">
+					Publish As Story</button>
+				<button id="draft" onclick="draftclick(2)" value="true">Save
+					As Draft</button>
+				<!--select name="genre" id="genre">
+					<option value="fashion">Fashion</option>
+					<option value="food">Food</option>
+					<option value="travel">Travel</option>
+					<option value="music">Music</option>
+					<option volvo="lifestyle">Lifestyle</option>
+					<option value="fitness">Fitness</option>
+					<option value="sports">Sports</option>
+					<option value="finance">Finance</option>
+					<option value="political">Political</option>
+					<option value="business">Business</option>
+					<option value="movie">Movie</option>
+					<option value="news">News</option>
+					<option value="gaming">Gaming</option>
+					<option value="science">Science</option>
+					<option value="history">History</option>
+				</select-->
+			</div>
 		</div>
 	</div>
 	<script src="Home.js"></script>

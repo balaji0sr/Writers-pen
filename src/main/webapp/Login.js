@@ -63,7 +63,6 @@ function signupsubmit() {
 	var encodepas = MD5(signuppas);
 
 	console.log(encodepas);
-	alert(encodepas);
 
 	if (signupmail.length >= 1) {
 

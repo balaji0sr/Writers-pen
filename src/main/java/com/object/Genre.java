@@ -9,7 +9,7 @@ public class Genre {
 	
 	@Id
 	private int genreid;
-	private int genrename;
+	private String genrename;
 	
 	public int getGenreid() {
 		return genreid;
@@ -17,10 +17,11 @@ public class Genre {
 	public void setGenreid(int genreid) {
 		this.genreid = genreid;
 	}
-	public int getGenrename() {
+	public String getGenrename() {
 		return genrename;
 	}
-	public void setGenrename(int genrename) {
+	public void setGenrename(String genrename) {
 		this.genrename = genrename;
 	}
+	
 }
