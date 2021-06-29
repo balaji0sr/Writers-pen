@@ -34,7 +34,7 @@ public class StoriesGet {
 		
 		HttpSession ses = req.getSession();
 
-		int useridint = (int) ses.getAttribute("userid");
+		long useridint = (long) ses.getAttribute("userid");
 		long userid = Long.valueOf(useridint);
 
 		int page = Integer.parseInt(req.getParameter("page"));
@@ -43,9 +43,10 @@ public class StoriesGet {
 		String searchcontent = req.getParameter("searchcontent");
 		String likedstories = req.getParameter("likedstories");
 		String commentedstories = req.getParameter("searchcontent");
+		String subscribedstories = req.getParameter("subscribedstories");
 		
 
-		ArrayList<Story> slist = StoryCRUD.read(page ,type, userid , searchcontent , likedstories , commentedstories);
+		ArrayList<Story> slist = StoryCRUD.read(page ,type, userid , searchcontent , likedstories , commentedstories , subscribedstories);
 
 		if (slist.size() < (StoryCRUD.storyFetchLimit + 1) )
 			moredata = false;

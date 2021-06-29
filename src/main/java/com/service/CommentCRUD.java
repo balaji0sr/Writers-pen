@@ -3,9 +3,7 @@ package com.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -42,10 +40,6 @@ public class CommentCRUD {
 
 		Criteria criteria = ses.createCriteria(Comment.class);
 		ArrayList<Comment> clist = (ArrayList<Comment>) criteria.add(Restrictions.eq("storyid", storyid)).list();
-
-		for (Comment c : clist) {
-			System.out.println(c.getComment());
-		}
 
 		t.commit();
 		return clist;

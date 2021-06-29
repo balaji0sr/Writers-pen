@@ -26,7 +26,7 @@ public class LikeControl {
 	public void likeget(@PathVariable("storyid") long storyid, HttpServletRequest req, HttpServletResponse res) throws ClassNotFoundException, SQLException, IOException, ServletException {
 
 		HttpSession ses = req.getSession();
-		int useridint = (int) ses.getAttribute("userid");
+		long useridint = (long) ses.getAttribute("userid");
 		long userid = Long.valueOf(useridint);
 
 		Likes l = LikeCRUD.read(userid, storyid);

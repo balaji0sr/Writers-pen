@@ -4,6 +4,7 @@ package com.service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -15,13 +16,17 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.object.Comment;
+import com.object.Genre;
+import com.object.Genre_user;
+import com.object.Likes;
 import com.object.Story;
 
 public class StoryCRUD {
 
 	public static final int storyFetchLimit = 5;
 
-	public static void create(long userid, String username, String title, String content, int type, long parentstoryid, String contenttext) {
+	public static void create(long userid, String username, String title, String content, int type, long parentstoryid, String contenttext, String genrename) {
 
 		long updatetime = System.currentTimeMillis();
 		long modifiedtime = System.currentTimeMillis();
@@ -29,7 +34,7 @@ public class StoryCRUD {
 		String updatetimestr = String.valueOf(updatetime);
 		String modifiedtimestr = String.valueOf(modifiedtime);
 
-		long genreid = 101;
+		int genreid = getgenreid(genrename);
 		long likecount = 0;
 
 		Story s = new Story();
@@ -52,29 +57,88 @@ public class StoryCRUD {
 		t.commit();
 	}
 
-	public static ArrayList<Story> read(int page, int type, long userid, String searchcontent, String likedstories, String commentedstories) {
+	public static ArrayList<Story> read(int page, int type, long userid, String searchcontent, String likedstories, String commentedstories, String subscribedstories) {
 
 		int firstelement = (page - 1) * storyFetchLimit;
 		int lastelemant = storyFetchLimit + 1;
 
 		Session ses = Hibernate.getSessionFactory().openSession();
 		Transaction t = ses.beginTransaction();
+
+		if (subscribedstories.equals("true")) {
+			ArrayList<Genre_user> gulist = getsubscribedstorys(userid);
+			int listsize = gulist.size();
+			if (listsize > 0) {
+				String hql = "Select storyid, userid, username, title, content, type, parentstoryid, updatetime, modifiedtime, genreid, likecount, viewcount, contenttext FROM Story WHERE ";
+				for (int i = 0; i < listsize; i++) {
+					int genreid = gulist.get(i).getGenreid();
+					hql = hql + "genreid = " + genreid;
+					if (i == listsize - 1) {
+						break;
+					}
+					hql = hql + " or ";
+				}
+				hql = hql + " ORDER BY updatetime DESC limit " + firstelement + "," + lastelemant;
+
+				System.out.println(hql);
+				Query query = ses.createQuery(hql);
+				List<Object[]> list =(List<Object[]>) query.list();
+				t.commit();
+				ArrayList<Story> slist = ObjectListToStoryList.change(list);
+				return slist;
+			}
+		}
+
 		Criteria criteria = ses.createCriteria(Story.class);
 
-		if (likedstories.equals("true") || commentedstories.equals("true")) {
+		if (likedstories.equals("true")) {
 
-			String querystr = "";
-			if (likedstories.equals("true")) {
-				querystr = "SELECT storyid, userid, username, title, content, type, parentstoryid, updatetime, modifiedtime, genreid, likecount, viewcount, contenttext FROM Likes l left join Story s where l.storyid = s.storyid and l.userid = " + userid;
+			ArrayList<Likes> llist = getlikedstorys(userid);
+			int listsize = llist.size();
+			if (listsize > 0) {
+				String hql = "Select storyid, userid, username, title, content, type, parentstoryid, updatetime, modifiedtime, genreid, likecount, viewcount, contenttext FROM Story WHERE ";
+				for (int i = 0; i < listsize; i++) {
+					long storyid = llist.get(i).getStoryid();
+					hql = hql + "storyid = " + storyid;
+					if (i == listsize - 1) {
+						break;
+					}
+					hql = hql + " or ";
+				}
+				hql = hql + " ORDER BY updatetime DESC limit " + firstelement + "," + lastelemant;
+
+				System.out.println(hql);
+				Query query = ses.createQuery(hql);
+				List<Object[]> list =(List<Object[]>) query.list();
+				t.commit();
+				ArrayList<Story> slist = ObjectListToStoryList.change(list);
+				return slist;
 			}
-			if (commentedstories.equals("true")) {
+		}
+		
+		if (commentedstories.equals("true")) {
+
+			ArrayList<Comment> clist = getcommentedstorys(userid);
+			int listsize = clist.size();
+			if (listsize > 0) {
+				String hql = "Select storyid, userid, username, title, content, type, parentstoryid, updatetime, modifiedtime, genreid, likecount, viewcount, contenttext FROM Story WHERE ";
+				for (int i = 0; i < listsize; i++) {
+					long storyid = clist.get(i).getStoryid();
+					hql = hql + "storyid = " + storyid;
+					if (i == listsize - 1) {
+						break;
+					}
+					hql = hql + " or ";
+				}
+				hql = hql + " ORDER BY updatetime DESC limit " + firstelement + "," + lastelemant;
+
+				System.out.println(hql);
+				Query query = ses.createQuery(hql);
+				List<Object[]> list =(List<Object[]>) query.list();
+				t.commit();
+				ArrayList<Story> slist = ObjectListToStoryList.change(list);
+				return slist;
 			}
-			Query query = ses.createQuery(querystr);
-			query.setFirstResult(firstelement);
-			query.setMaxResults(lastelemant);
-			ArrayList<Story> slist = (ArrayList<Story>) query.list();
-			t.commit();
-			return slist;
 		}
 
 		if (type == 0) {
@@ -181,4 +245,57 @@ public class StoryCRUD {
 		ses.delete(s);
 		t.commit();
 	}
+
+	public static int getgenreid(String genrename) {
+		System.out.println(genrename);
+
+		Session ses = Hibernate.getSessionFactoryOfGenre().openSession();
+		Transaction t = ses.beginTransaction();
+
+		Criteria criteria = ses.createCriteria(Genre.class);
+		Genre g = (Genre) criteria.add(Restrictions.eq("genrename", genrename)).uniqueResult();
+		t.commit();
+		System.out.println(g.getGenreid());
+
+		return g.getGenreid();
+	}
+
+	public static ArrayList<Genre_user> getsubscribedstorys(long userid) {
+
+		Session ses = Hibernate.getSessionFactoryOfGenre_user().openSession();
+		Transaction t = ses.beginTransaction();
+
+		Criteria criteria = ses.createCriteria(Genre_user.class);
+		ArrayList<Genre_user> gulist = (ArrayList<Genre_user>) criteria.add(Restrictions.eq("userid", userid)).list();
+		t.commit();
+
+		return gulist;
+	}
+	
+	public static ArrayList<Likes> getlikedstorys(long userid) {
+
+		System.out.println("userid " + userid);
+		Session ses = Hibernate.getSessionFactoryOfLike().openSession();
+		Transaction t = ses.beginTransaction();
+
+		Criteria criteria = ses.createCriteria(Likes.class);
+		ArrayList<Likes> llist = (ArrayList<Likes>) criteria.add(Restrictions.eq("userid", userid)).list();
+		t.commit();
+
+		return llist;
+	}
+	
+	public static ArrayList<Comment> getcommentedstorys(long userid) {
+
+		System.out.println("userid " + userid);
+		Session ses = Hibernate.getSessionFactoryOfComment().openSession();
+		Transaction t = ses.beginTransaction();
+
+		Criteria criteria = ses.createCriteria(Comment.class);
+		ArrayList<Comment> clist = (ArrayList<Comment>) criteria.add(Restrictions.eq("userid", userid)).list();
+		t.commit();
+
+		return clist;
+	}
+
 }

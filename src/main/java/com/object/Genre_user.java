@@ -1,9 +1,20 @@
 //$Id$
 package com.object;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Genre_user {
 
+	@Id
+	@Column(name="genre_userid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long genre_userid;
+	
 	private int genreid;
 	private long userid;
 	

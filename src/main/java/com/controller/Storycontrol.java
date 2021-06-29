@@ -80,8 +80,9 @@ public class Storycontrol {
 		String decodedStory = URLDecoder.decode(story);
 
 		String contenttext = req.getParameter("contenttext");
+		String genre = req.getParameter("genre");
 
-		StoryCRUD.create(userid, username, title, decodedStory, type, parentstoryid, contenttext);
+		StoryCRUD.create(userid, username, title, decodedStory, type, parentstoryid, contenttext, genre);
 
 		String s = "success " + userid;
 		res.setContentType("text/plain");

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,6 +15,9 @@
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script
+	src="https://cdn.prowritingaid.com/beyondgrammar-quill/1.0.72/dist/beyond-grammar-plugin.js"></script>
+
 
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
 	rel="stylesheet">
@@ -61,6 +65,9 @@
 					<td onclick="getstories(2)">Drafts</td>
 				<tr />
 				<tr>
+					<td onclick="subscribedgenre()">Subscribed Genre</td>
+				<tr />
+				<tr>
 					<td onclick="logout(event)">Logout</td>
 				<tr />
 			</table>
@@ -75,6 +82,16 @@
 	</div>
 
 	<div id="storieslistdiv">
+
+		<div id="storieslistviewoptiondiv">
+			<div id="allstoriesbtn">
+				<a onclick="getallstories()">All Stoies</a>
+			</div>
+			<div id="subscribedstroiesbtn">
+				<a onclick="getsubscribedstories()">Subscribed Stoies</a>
+			</div>
+		</div>
+
 		<span id="storylistdetail">Latest Stories</span>
 		<div id="storylist">Loading awesome stories...</div>
 
@@ -91,7 +108,19 @@
 		</div>
 	</div>
 
-	<div id="subs-gen" style="float: right;"></div>
+
+	<div id="subscribedgenrediv">
+
+		<span>Subscribed Genre</span>
+		<div id="subscribedgenrelist"></div>
+		<span>Un-Subscribed Genre</span>
+		<div id="unsubscribedgenrelist"></div>
+
+		<button id="changesubscriptionbtn" onclick="changesubscription()"></button>
+
+	</div>
+
+
 
 	<div id="storydiv">
 
@@ -103,7 +132,7 @@
 			<table>
 				<tr>
 					<td><div id="title"></div></td>
-					<td></td>
+					<td style="float: right;"><div id="genrenamediv">Genre : <span id = "genrenamespan">No Genre</span></div></td>
 				</tr>
 				<tr>
 					<td><div id="publisherdiv"></div></td>
@@ -150,7 +179,6 @@
 			</div>
 
 			<div id="additionaloptionsdiv">
-
 				<input type="file" id="file" name="file" multiple>
 			</div>
 
@@ -161,7 +189,8 @@
 					Publish As Story</button>
 				<button id="draft" onclick="draftclick(2)" value="true">Save
 					As Draft</button>
-				<!--select name="genre" id="genre">
+				<select name="genre" id="genre">
+					<option value=" ">Select Genre</option>
 					<option value="fashion">Fashion</option>
 					<option value="food">Food</option>
 					<option value="travel">Travel</option>
@@ -177,7 +206,7 @@
 					<option value="gaming">Gaming</option>
 					<option value="science">Science</option>
 					<option value="history">History</option>
-				</select-->
+				</select>
 			</div>
 		</div>
 	</div>

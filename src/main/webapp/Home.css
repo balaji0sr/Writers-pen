@@ -8,8 +8,33 @@
 }
 
 #storylist {
-	border-radius: 10px;
 	margin: 24px;
+	width: 70%;
+	border-top-color: #777;
+	border-top: thin solid;
+}
+
+#storieslistviewoptiondiv {
+background-color: #F0F0F0;
+    width: 22%;
+    margin: 24px;
+    padding: 6px;
+    margin-top: 48px;
+    float: right;
+}
+
+#allstoriesbtn {
+	color: blue;
+	font-size: 12px;
+	text-decoration: underline;
+	    margin: 4px;
+}
+
+#subscribedstroiesbtn {
+	color: blue;
+	font-size: 12px;
+	text-decoration: underline;
+	    margin: 4px;
 }
 
 #userstoryoptiondiv {
@@ -110,13 +135,13 @@
 	color: #38f;
 }
 
-#additionaloptionsdiv{
-	    margin: 16px;
+#additionaloptionsdiv {
+	margin: 16px;
 }
 
 #updatetimediv {
-	    text-align: center;
-    margin-top: 10px;
+	text-align: center;
+	margin-top: 10px;
 }
 
 #content {
@@ -173,6 +198,10 @@
 	font-size: 18px;
 }
 
+.backbtn:hover {
+	background-color: #cdcdcd;
+}
+
 .editbtn {
 	color: blue;
 	font-size: 12px;
@@ -201,11 +230,10 @@
 }
 
 .storyblock {
-	border-radius: 10px;
 	background-color: #F0F0F0;
-	width: 70%;
 	padding: 10px;
-	margin: 12px;
+	border-bottom-color: #777;
+	border-bottom: thin solid;
 }
 
 .storyblock:hover {
@@ -245,10 +273,10 @@
 }
 
 #publishbuttondiv {
-    text-align: center;
+	text-align: center;
 }
 
-#compose , #compose:active{
+#compose, #compose:active {
 	background-color: #eee;
 	float: right;
 	color: black;
@@ -257,8 +285,8 @@
 	font-size: 14px;
 	margin-right: 2%;
 	margin-top: -4px;
-	    border: none;
-    border-radius: 4px;
+	border: none;
+	border-radius: 4px;
 }
 
 #compose:hover, #searchit:hover {
@@ -333,7 +361,7 @@
 }
 
 #inserttitle {
-    width: 1118px;
+	width: 1118px;
 	border: none;
 	font-size: 16px;
 	font-weight: 600;
@@ -353,4 +381,32 @@
 .ql-editor img {
 	width: 150px;
 	height: 200px;
+}
+
+#subscribedgenrediv {
+	margin: 36px;
+	padding: 6px;
+}
+
+#subscribedgenrelist {
+	margin: 8px;
+	padding: 6px;
+	height: 200px;
+	background: #f0f0f0;
+	border-radius: 10px;
+}
+
+#unsubscribedgenrelist {
+	margin: 8px;
+	padding: 6px;
+	height: 200px;
+	background: #f0f0f0;
+	border-radius: 10px;
+	height: 200px;
+}
+
+.genrebtn {
+	font-size: 14px;
+	margin: 6px;
+	border-radius: 10px;
 }

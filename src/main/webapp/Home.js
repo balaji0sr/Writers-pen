@@ -7,6 +7,8 @@ var page = 1;
 var type;
 var draftid;
 var searchcontent;
+var subscribedstories = "false";
+var quill;
 
 window.onload = getstories(0);
 
@@ -23,22 +25,28 @@ $('#searchit').click(function() {
 	document.getElementById('search').value = "";
 });
 
-function getstories(typeid) {
+function getsubscribedstories() {
+	subscribedstories = "true";
+	getstories(0);
+}
 
+function getallstories() {
+	subscribedstories = "false";
+	getstories(0);
+}
+
+function getstories(typeid) {
 	var likedstoriesbtnvalue = document.getElementById("likedstoriesbtn").value;
 	var commentedstoriesbtnvalue = document.getElementById("commentedstoriesbtn").value;
-
+	var dis = "";
 	if (typeid != null) {
 		type = typeid;
 		page = 1;
 		searchcontent = "";
 	}
-	var dis = "";
-
 	if (type == 0) $('#storylistdetail').html("Latest Stories");
 	if (type == 1) $('#storylistdetail').html("Your Stories");
 	if (type == 2) $('#storylistdetail').html("Saved As Draft");
-
 	$.ajax({
 		url: 'stories',
 		type: 'GET',
@@ -48,7 +56,8 @@ function getstories(typeid) {
 			type: type,
 			searchcontent: searchcontent,
 			likedstories: likedstoriesbtnvalue,
-			commentedstories: commentedstoriesbtnvalue
+			commentedstories: commentedstoriesbtnvalue,
+			subscribedstories: subscribedstories
 		},
 		success: function(data) {
 			$('#useroptions').hide();
@@ -83,7 +92,7 @@ function getstories(typeid) {
 		},
 		error: function() {
 			console.log('error');
-			//window.location.href = "Login.jsp";
+			window.location.href = "Login.jsp";
 		},
 	});
 }
@@ -99,7 +108,6 @@ $('#next').click(function() {
 	page = page + 1
 	getstories();
 });
-
 
 function previousblock(page) {
 	if (page == 1) {
@@ -135,6 +143,57 @@ function commentedstorieslist() {
 	getstories();
 }
 
+function subscribedgenre() {
+	$.ajax({
+		url: 'stories/' + userid + '/subscribedgenre',
+		type: 'GET',
+		cache: false,
+		success: function(data) {
+
+			var substr = "";
+			var unsubstr = "";
+
+			if (data.subgenre.length == 0) substr = "no stories ";
+			for (let j = 0; j < data.subgenre.length; j++) {
+				substr = substr + "<button id = \"" + data.subgenre[j].genre_userid + "\" class = \"genrebtn\" onclick = \"deletesubscription(" + data.subgenre[j].genreid + ")\" >" + data.subgenre[j].genrename + "</button>";
+			}
+			for (let j = 1; j < data.genre.length; j++) {
+				unsubstr = unsubstr + "<button id = \"" + data.genre[j].genreid + "\" class = \"genrebtn\" onclick = \"addsubscription(" + data.genre[j].genreid + ")\">" + data.genre[j].genrename + "</button>";
+			}
+
+			$('#subscribedgenrelist').html(substr);
+			$('#unsubscribedgenrelist').html(unsubstr);
+			showsubscribedgenrediv();
+		},
+		error: function() {
+			console.log('error');
+		},
+	});
+}
+
+function addsubscription(genreid) {
+	$.ajax({
+		url: 'stories/subscribedgenre/' + genreid,
+		type: 'POST',
+		cache: false,
+		success: function(data) {
+			subscribedgenre();
+		},
+	});
+}
+
+
+function deletesubscription(genre_userid) {
+	$.ajax({
+		url: 'stories/subscribedgenre/' + genre_userid,
+		type: 'DELETE',
+		cache: false,
+		success: function(data) {
+			subscribedgenre();
+		},
+	});
+}
+
 
 var toolbarOptions = [['bold', 'italic', 'underline', 'strike'],
 ['blockquote', 'code-block'],
@@ -147,18 +206,41 @@ var toolbarOptions = [['bold', 'italic', 'underline', 'strike'],
 ['image', 'video', 'formula'],
 [{ 'color': [] }, { 'background': [] }],
 [{ 'font': [] }],
-[{ 'align': [] }]
+[{ 'align': [] }],
+[{ beyondgrammar: ['en-US', 'en-GB', false] }]
 ];
 
-var quill = new Quill('#editor', {
-	modules: {
-		toolbar: toolbarOptions
-	},
-	image: function() {
-		console.log("image uploaded");
-		//document.getElementById('file').click()
-	},
-	theme: 'snow'
+window.BeyondGrammar.initBeyondGrammar(function() {
+
+	quill = new Quill('#editor', {
+		modules: {
+			toolbar: {
+				container: toolbarOptions,
+				handlers: {
+					beyondgrammar: window.BeyondGrammar.getToolbarHandler(quill)
+				}
+			},
+			beyondgrammar: {
+				service: {
+					apiKey: "E8FEF7AE-3F36-4EAF-A451-456D05E6F2A3",
+				},
+				grammar: {
+					languageIsoCode: "en-US",
+
+					checkStyle: true,
+
+					checkSpelling: true,
+
+					checkGrammar: true,
+
+					showThesaurusByDoubleClick: true,
+
+					showContextThesaurus: false,
+				}
+			}
+		},
+		theme: 'snow'
+	});
 });
 
 function homebtn(event) {
@@ -178,35 +260,34 @@ $("#file").on("change", function() {
 
 var atachmentcontent = "";
 
-
 function saveattachment() {
 	console.log("in save");
 
-	var fd = new FormData();
 	var files = $('#file')[0].files;
-	var fileslength = files.length; 
+	var fileslength = files.length;
 
 	if (fileslength > 0) {
-	for(let i = 0 ; i < fileslength ; i++){
-		fd.append('file -'+ i , files[i]);
+		for (let i = 0; i < fileslength; i++) {
+
+			let fd = new FormData();
+
+			fd.append('file', files[i]);
+
+			$.ajax({
+				url: 'attachmentservice',
+				type: 'post',
+				data: fd,
+				contentType: false,
+				processData: false,
+				dataType: "json",
+				async: false,
+				success: function(filedata) {
+					var obj = JSON.parse(filedata);
+					atachmentlink = "<div id = \"attachmentdiv\"><i class=\"fa fa-file-pdf-o\"> <a href=" + obj.link + " target=\"_blank\" >" + obj.filename + "</a></i></div>";
+					atachmentcontent = atachmentcontent + atachmentlink;
+				},
+			});
 		}
-
-		$.ajax({
-			url: 'attachmentservice',
-			type: 'post',
-			data: fd,
-			contentType: false,
-			processData: false,
-			dataType: "json",
-			success: function(filedata) {
-
-				var obj = JSON.parse(filedata);
-
-				atachmentlink = "<div id = \"attachmentdiv\"><i class=\"fa fa-file-pdf-o\"> <a href=" + obj.link + ">" + obj.filename + "</a></i></div>";
-
-				atachmentcontent = atachmentcontent + atachmentlink;
-			},
-		});
 	}
 }
 
@@ -258,6 +339,7 @@ function uploadclick(type) {
 
 	var titlein = document.getElementById("inserttitle").value;
 	var newcontent = document.getElementById("upload").value;
+	var genre = document.getElementById("genre").value;
 
 	var conenttext = document.getElementById('editor').getElementsByTagName("p");
 	var contentstr = "";
@@ -278,6 +360,7 @@ function uploadclick(type) {
 				type: type,
 				parentstoryid: parentstoryid,
 				contenttext: contentstr,
+				genre: genre,
 			},
 			cache: false,
 			success: function(data) {
@@ -532,6 +615,7 @@ function story(id) {
 			$('#content').html($.parseHTML(str));
 			str = "";
 
+if (d.genreid > 0) getgenrename(d.genreid);
 			getcomment();
 			likeget();
 		},
@@ -544,9 +628,23 @@ function story(id) {
 	});
 }
 
+function getgenrename(genreid) {
+	$.ajax({
+		url: 'stories/genre/' + genreid,
+		type: 'GET',
+		cache: false,
+		success: function(data) {
+		let str = 'Genre :<span id = "genrenamespan"> ' + data.genrename + "</span>"
+			$('#genrenamediv').html(str);
+		},
+		error: function() {
+			console.log('error')
+		}
+	});
+}
+
 var cmt = "";
 function getcomment() {
-	console.log("incomment");
 	$.ajax({
 		url: 'stories/' + storyid + '/comment',
 		type: 'GET',
@@ -657,6 +755,8 @@ function showstorieslistdiv() {
 	$('#storieslistdiv').show();
 	$('#storydiv').hide();
 	$('#editordiv').hide();
+	$('#subscribedgenrediv').hide();
+
 }
 
 function showstorydiv() {
@@ -664,6 +764,8 @@ function showstorydiv() {
 	$('#storydiv').show();
 	$('#storieslistdiv').hide();
 	$('#editordiv').hide();
+	$('#subscribedgenrediv').hide();
+
 }
 
 function showeditordiv() {
@@ -674,6 +776,17 @@ function showeditordiv() {
 	$('#editordiv').show();
 	$('#storieslistdiv').hide();
 	$('#storydiv').hide();
+	$('#subscribedgenrediv').hide();
+
+}
+
+function showsubscribedgenrediv() {
+	$('.ql-editor').attr('contenteditable', 'false');
+	$('#subscribedgenrediv').show();
+	$('#storieslistdiv').hide();
+	$('#storydiv').hide();
+	$('#editordiv').hide();
+
 }
 
 function logout() {

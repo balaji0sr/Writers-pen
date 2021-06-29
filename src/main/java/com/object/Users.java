@@ -8,17 +8,19 @@ import javax.persistence.Id;
 public class Users {
 	
 	@Id
-	private int userid;
+	private long userid;
+	
 	private String name;
 	private String mail;
 	private String pas;
 	private String about;
 	private String subscribed;
 	
-	public int getUserid() {
+	
+	public long getUserid() {
 		return userid;
 	}
-	public void setUserid(int userid) {
+	public void setUserid(long userid) {
 		this.userid = userid;
 	}
 	public String getName() {
